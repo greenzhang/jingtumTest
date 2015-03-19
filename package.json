@@ -1,0 +1,16 @@
+{
+  "name": "jingtumRestTest",
+  "version": "1.0.0",
+  "description": "a test for wallet",
+  "main": "testUtils.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies":{
+    "assert":"*",
+    "supertest":"*",
+    "ripple-lib": "^0.12.0"
+  },
+  "author": "greenzhang",
+  "license": "MIT"
+}
