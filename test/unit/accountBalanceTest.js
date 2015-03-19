@@ -7,8 +7,17 @@
 //    var wallet = {};
 //    before(function() {
 //        api
-//            .get('/vi/wallet/new', function(req, res) {
-//                wallet = req.body.wallet;
+//            .get('/vi/wallet/new', f
+//
+//
+//
+//
+// unction(req, res) {
+//                wallet = req.body
+//
+//
+//
+// .wallet;
 //            })
 //    });
 //    it('::should get account balance!', function() {
