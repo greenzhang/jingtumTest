@@ -85,6 +85,9 @@ describe('trust', function () {
             req.end();
         };
     });
+    afterEach(function(done){
+        done();
+    });
     describe('::trust currency', function () {
         it('::should return pendding', function (done) {
             // body...
