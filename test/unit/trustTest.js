@@ -85,7 +85,7 @@ describe('trust', function () {
             req.end();
         };
     });
-    afterEach(function(done){
+    afterEach(function (done) {
         done();
     });
     describe('::trust currency', function () {
@@ -113,17 +113,114 @@ describe('trust', function () {
                 })
                 .end(done)
         });
-        it('::should return success', function (done) {
-            this.timeout(30000); //给信任时间
+    });
+    describe('::trust currency', function () {
+        it('::should return pendding', function (done) {
+            // body...
+            var data = {
+                secret: wallet.secret,
+                trustline: {
+                    limit: 10000,
+                    currency: "800000000000000000000000F906A51E110BE7E7",
+                    counterparty: "janxMdrWE2SUzTqRUtfycH4UGewMMeHa9f",
+                    account_allows_rippling: false
+                }
+            };
+            request
+                .post('/v1/accounts/' + wallet.address + '/trustlines??validated=true')
+                .send(data)
+                .expect(201)
+                .expect(function (res, err) {
+                    assert.ifError(err);
+                    assert.strictEqual(res.body.success, true);
+                    assert.strictEqual(typeof res.body.trustline, 'object');
+                    assert.strictEqual(res.body.state, 'pending');
+                    assert(ripple.UInt256.is_valid(res.body.hash), '该次操作的交易号不合法');
+                })
+                .end(done)
+        });
+        it('::should get trustLines', function (done) {
             request
                 .get('/v1/accounts/' + wallet.address + '/trustlines')
                 .expect(200)
                 .expect(testutils.checkHeaders)
                 .expect(function (res, err) {
                     assert.ifError(err);
-                    testutils.checkTrust(res, 'CNY', '10000')
+                    testutils.checkTrust(res, 'CNY', '10000');
+                    testutils.checkTrust(res, '800000000000000000000000F906A51E110BE7E7', '10000');
                 })
                 .end(done);
-        })
-    })
+        });
+    });
+    //describe('should get total trustLines',function(){
+    //    before(function(done){
+    //        sendParams = {
+    //            hostname: 'rztong.jingtum.com',
+    //            port: 5000,
+    //            path: '/v1/accounts/' + wallet.address + '/trustlines',
+    //            method: 'POST'
+    //        };
+    //        var data = {
+    //            secret: wallet.secret,
+    //            trustline: {
+    //                limit: 10000,
+    //                currency: "USD",
+    //                counterparty: "janxMdrWE2SUzTqRUtfycH4UGewMMeHa9f",
+    //                account_allows_rippling: false
+    //            }
+    //        };
+    //        var data1 = {
+    //            secret: wallet.secret,
+    //            trustline: {
+    //                limit: 10000,
+    //                currency: "800000000000000000000000F906A51E110BE7E7",//融资通名称：测试3
+    //                counterparty: "janxMdrWE2SUzTqRUtfycH4UGewMMeHa9f",
+    //                account_allows_rippling: false
+    //            }
+    //        };
+    //        var req = http.request(sendParams, function (res) {
+    //            res.on('data', function (chunk) {
+    //                chunk = JSON.parse(chunk.toString('utf-8'));
+    //                if (chunk.success === true) {
+    //                    done()
+    //                }
+    //            })
+    //        });
+    //        req.on('error', function (e) {
+    //            console.log('problem with request: ' + e.message);
+    //        });
+    //        req.write(JSON.stringify(data));
+    //        req.end();
+    //        //var callback = function(){
+    //        //    var req = http.request(sendParams, function (res) {
+    //        //        res.on('data', function (chunk) {
+    //        //            chunk = JSON.parse(chunk.toString('utf-8'));
+    //        //            if (chunk.success === true) {
+    //        //                done()
+    //        //            }
+    //        //        })
+    //        //    });
+    //        //    req.on('error', function (e) {
+    //        //        console.log('problem with request: ' + e.message);
+    //        //    });
+    //        //    req.write(JSON.stringify(data1));
+    //        //    req.end();
+    //        //}
+    //    });
+    //    it('::should get trustLines', function (done) {
+    //        request
+    //            .get('/v1/accounts/' + wallet.address + '/trustlines')
+    //            .expect(200)
+    //            .expect(testutils.checkHeaders)
+    //            .expect(function (res, err) {
+    //                assert.ifError(err);
+    //                testutils.checkTrust(res, 'USD', '10000');
+    //                testutils.checkTrust(res, 'CNY', '10000');
+    //                //testutils.checkTrust(res, '800000000000000000000000F906A51E110BE7E7', '10000');
+    //            })
+    //            .end(done);
+    //    });
+    //
+    //});
+
 });

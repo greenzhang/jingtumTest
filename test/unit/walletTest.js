@@ -126,7 +126,4 @@ describe('wallet', function () {
                 .end(done);
         })
     });
-    after(function(done){
-        done();
-    })
 });
