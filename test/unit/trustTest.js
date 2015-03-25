@@ -121,13 +121,13 @@ describe('trust', function () {
                 secret: wallet.secret,
                 trustline: {
                     limit: 10000,
-                    currency: "800000000000000000000000F906A51E110BE7E7",
+                    currency: "800000000000000000000000F906A51E110BE7E7",//融资通名称：测试3
                     counterparty: "janxMdrWE2SUzTqRUtfycH4UGewMMeHa9f",
                     account_allows_rippling: false
                 }
             };
             request
-                .post('/v1/accounts/' + wallet.address + '/trustlines??validated=true')
+                .post('/v1/accounts/' + wallet.address + '/trustlines')
                 .send(data)
                 .expect(201)
                 .expect(function (res, err) {

@@ -103,7 +103,7 @@ describe('utilities Test', function () {
     describe('transaction-fee',function(){
         it('::should return fee',function(done){
             api
-                .get('/v1/uuid')
+                .get('/v1/transaction-fee')
                 .expect(200)
                 .expect(function (res, err) {
                     assert.strictEqual(res.body.success, true);

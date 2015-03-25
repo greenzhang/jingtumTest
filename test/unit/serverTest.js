@@ -12,6 +12,13 @@ describe('server test', function () {
             .get('/v1/server')
             .expect(200)
             .expect(testutils.checkHeaders)
+            .expect(function(res,err){
+                var checkkey = testutils.checkObjKeys(res.body, ['success', 'api_documentation_url', 'rippled_server_url', 'rippled_server_status']);
+                assert.deepEqual(checkkey, {
+                    "hasAllKeys": true,
+                    "missingKeys": {}
+                });
+            })
             .end(done);
     });
     it('::should get server ok', function (done) {
